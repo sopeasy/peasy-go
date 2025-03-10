@@ -76,9 +76,6 @@ func send(endpoint string, payload map[string]any) error {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return err
-	}
-	if err != nil {
 		return fmt.Errorf("peasy: failed to send request: %w", err)
 	}
 	defer resp.Body.Close()
