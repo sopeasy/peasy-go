@@ -71,13 +71,21 @@ func send(endpoint string, payload map[string]any) error {
 
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("X-Peasy-Server", "peasy-go")
+	req.Header.Set("User-Agent", "peasy-go-client")
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
+	if err != nil {
+		return fmt.Errorf("peasy: failed to send request: %w", err)
+	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusNoContent {
+		return fmt.Errorf("peasy: failed to send request: %s", resp.Status)
+	}
 
 	return nil
 }
